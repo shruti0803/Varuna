@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // or postgresql if you want
+  url      = env("DATABASE_URL")
+}
+
+model Route {
+  id               Int      @id @default(autoincrement())
+  routeId          String
+  vesselType       String
+  fuelType         String
+  year             Int
+  ghgIntensity     Float
+  fuelConsumption  Float
+  distance         Float
+  totalEmissions   Float
+  isBaseline       Boolean  @default(false)
+}
+
+model ShipCompliance {
+  id       Int     @id @default(autoincrement())
+  shipId   String
+  year     Int
+  cbGCO2Eq Float
+}
+
+model BankEntry {
+  id          Int     @id @default(autoincrement())
+  shipId      String
+  year        Int
+  amountGCO2Eq Float
+}
+
+model Pool {
+  id        Int      @id @default(autoincrement())
+  year      Int
+  createdAt DateTime @default(now())
+  members   PoolMember[]
+}
+
+model PoolMember {
+  id         Int      @id @default(autoincrement())
+  poolId     Int
+  shipId     String
+  cbBefore   Float
+  cbAfter    Float
+  Pool       Pool     @relation(fields: [poolId], references: [id])
+}

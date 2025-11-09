@@ -1,0 +1,23 @@
+# Node dependencies
+**/node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files
+**/.env
+
+# Build outputs
+**/dist
+**/build
+**/.next
+**/coverage
+
+# Local databases
+**/dev.db
+**/*.sqlite
+**/*.sqlite-journal
+
+# Editor and system files
+.vscode
+.DS_Store
+Thumbs.db
