@@ -1,14 +1,22 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "type": "module",
+
+  "main": "dist/server.js",
+  "description": "Fuel EU Compliance Dashboard Backend",
   "author": "",
   "license": "ISC",
-  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+   "dev": "node --loader ts-node/esm src/server.ts",  
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "cors": "^2.8.5",

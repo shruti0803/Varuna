@@ -3,49 +3,50 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // or postgresql if you want
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Route {
-  id               Int      @id @default(autoincrement())
-  routeId          String
-  vesselType       String
-  fuelType         String
-  year             Int
-  ghgIntensity     Float
-  fuelConsumption  Float
-  distance         Float
-  totalEmissions   Float
-  isBaseline       Boolean  @default(false)
+  id              Int      @id @default(autoincrement())
+  route_id        String
+  vesselType      String?
+  fuelType        String?
+  year            Int
+  ghg_intensity   Float
+  fuelConsumption Float?
+  distance        Float?
+  totalEmissions  Float?
+  is_baseline     Boolean  @default(false)
 }
 
 model ShipCompliance {
-  id       Int     @id @default(autoincrement())
-  shipId   String
-  year     Int
-  cbGCO2Eq Float
+  id         Int     @id @default(autoincrement())
+  ship_id    String
+  year       Int
+  cb_gco2eq  Float
 }
 
 model BankEntry {
-  id          Int     @id @default(autoincrement())
-  shipId      String
-  year        Int
-  amountGCO2Eq Float
+  id            Int     @id @default(autoincrement())
+  ship_id       String
+  year          Int
+  amount_gco2eq Float
 }
 
 model Pool {
-  id        Int      @id @default(autoincrement())
-  year      Int
-  createdAt DateTime @default(now())
-  members   PoolMember[]
+  id         Int         @id @default(autoincrement())
+  year       Int
+  created_at DateTime    @default(now())
+  members    PoolMember[]
 }
 
 model PoolMember {
-  id         Int      @id @default(autoincrement())
-  poolId     Int
-  shipId     String
-  cbBefore   Float
-  cbAfter    Float
-  Pool       Pool     @relation(fields: [poolId], references: [id])
+  id         Int     @id @default(autoincrement())
+  pool_id    Int
+  ship_id    String
+  cb_before  Float
+  cb_after   Float
+
+  pool Pool @relation(fields: [pool_id], references: [id])
 }
