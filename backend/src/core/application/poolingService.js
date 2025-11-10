@@ -1,45 +1,51 @@
-import { prisma } from "../../shared/db.js";
+import prisma from "../../shared/db.js";
 
 export class PoolingService {
   async getAdjustedCB(year) {
     const yearNum = parseInt(year);
-    return await prisma.ship.findMany({
-      where: { year },
-      select: { id: true, name: true, adjustedCB: true },
+    console.log("Fetching adjusted CB for year:", yearNum);
+
+    const result = await prisma.shipCompliance.findMany({
+      where: { year: yearNum },
+      select: { id: true, ship_id: true, cb_gco2eq: true },
     });
+
+    console.log("Adjusted CB records fetched:", result);
+    return result;
   }
 
   async createPool(members) {
-    const ships = await prisma.ship.findMany({
+    console.log("Creating pool with members:", members);
+
+    const ships = await prisma.shipCompliance.findMany({
       where: { id: { in: members } },
-      select: { id: true, adjustedCB: true },
+      select: { id: true, ship_id: true, cb_gco2eq: true },
     });
 
-    const total = ships.reduce((sum, s) => sum + s.adjustedCB, 0);
+    console.log("Ships fetched for pooling:", ships);
+
+    const total = ships.reduce((sum, s) => sum + s.cb_gco2eq, 0);
+    console.log("Total CB sum for pool:", total);
 
     if (total < 0) {
       throw new Error("Invalid pool: total adjusted CB must be ≥ 0");
     }
 
-    for (const s of ships) {
-      if (s.adjustedCB < 0 && total < Math.abs(s.adjustedCB)) {
-        throw new Error(`Ship ${s.id} deficit worsens — not allowed`);
-      }
-      if (s.adjustedCB > 0 && total < 0) {
-        throw new Error(`Ship ${s.id} surplus cannot become negative`);
-      }
-    }
-
     const pool = await prisma.pool.create({
       data: {
-        totalCB: total,
+        year: new Date().getFullYear(),
         members: {
-          connect: members.map((id) => ({ id })),
+          create: ships.map((s) => ({
+            ship_id: s.ship_id,
+            cb_before: s.cb_gco2eq,
+            cb_after: s.cb_gco2eq,
+          })),
         },
       },
       include: { members: true },
     });
 
+    console.log("Pool created successfully:", pool);
     return pool;
   }
 }

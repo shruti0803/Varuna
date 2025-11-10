@@ -7,8 +7,13 @@ const poolingService = new PoolingService();
 // GET /compliance/adjusted-cb?year=YYYY
 router.get("/compliance/adjusted-cb", async (req, res) => {
   try {
+   
+
     const { year } = req.query;
+    console.log("year", year);
+   console.log("type",typeof(year));
     const data = await poolingService.getAdjustedCB(Number(year));
+     console.log("data:", data);
     res.json(data|| []);
   } catch (err) {
     res.status(500).json({ error: err.message });

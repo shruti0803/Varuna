@@ -1,4 +1,4 @@
-import { prisma } from "../../shared/db.js"; // ✅ if src/core/application/
+import  prisma  from "../../shared/db.js"; // ✅ if src/core/application/
 
 
 export class BankingService {

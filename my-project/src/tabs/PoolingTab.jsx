@@ -13,14 +13,20 @@ export default function PoolingTab() {
     async function fetchShips() {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/compliance/adjusted-cb?year=${year}`);
-        const shipsData = res.data.map((s) => ({
-          shipId: s.id,
-          name: s.name,
-          cbBefore: s.adjustedCB,
-        }));
+       const res = await axios.get(`http://localhost:8080/api/compliance/adjusted-cb?year=${year}`);
+
+         console.log("Raw response:", res.data); 
+
+ const shipsData = res.data.map((s) => ({
+  shipId: s.id,
+  name: s.ship_id,
+  cbBefore: Number(s.cb_gco2eq) || 0,
+}));
+
+
         setShips(shipsData);
         setSelected(shipsData.map((s) => s.shipId));
+
         setLoading(false);
       } catch (err) {
         console.error("Failed to load adjusted CBs:", err);
@@ -30,11 +36,14 @@ export default function PoolingTab() {
     fetchShips();
   }, [year]);
 
-  useEffect(() => {
-    const selectedShips = ships.filter((s) => selected.includes(s.shipId));
-    const total = selectedShips.reduce((sum, s) => sum + s.cbBefore, 0);
-    setPoolSum(total);
-  }, [selected, ships]);
+useEffect(() => {
+  const selectedShips = ships.filter((s) => selected.includes(s.shipId));
+  console.log("Selected Ships for pool:", selectedShips);
+  const total = selectedShips.reduce((sum, s) => sum + s.cbBefore, 0);
+  console.log("Calculated poolSum:", total);
+  setPoolSum(total);
+}, [selected, ships]);
+
 
   function toggle(id) {
     setSelected((prev) =>
