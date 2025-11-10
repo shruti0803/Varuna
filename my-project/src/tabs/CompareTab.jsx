@@ -103,7 +103,7 @@ export default function CompareTab() {
                         ? "bg-blue-500"
                         : r.compliant
                         ? "bg-green-500"
-                        : "bg-red-500"
+                        : "bg-yellow-500"
                     }`}
                     style={{ height: `${Math.max(heightPx, 20)}px` }}
                     title={`${r.route_id}: ${r.ghg_intensity.toFixed(3)} gCO₂e/MJ`}
