@@ -1,3 +1,4 @@
+// Dashboard.jsx
 import React, { useState } from "react";
 import RoutesTab from "../tabs/RoutesTab";
 import CompareTab from "../tabs/CompareTab";
@@ -14,46 +15,14 @@ const SAMPLE_ROUTES = [
 
 const TABS = ["Routes", "Compare", "Banking", "Pooling"];
 
-export default function Dashboard() {
-  const [active, setActive] = useState("Routes");
-
+export default function Dashboard({ activeTab }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-6">
-        <header className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold">Fuel EU Compliance Dashboard</h1>
-            <p className="text-sm text-gray-500">Target intensity: <span className="font-medium">89.3368 gCO₂e/MJ</span></p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <div className="text-sm text-gray-600">Environment: demo</div>
-          </div>
-        </header>
-
-        {/* Tabs */}
-        <div className="bg-white rounded-lg shadow-sm">
-          <nav className="flex gap-2 p-3 border-b border-gray-100">
-            {TABS.map((t) => (
-              <button
-                key={t}
-                onClick={() => setActive(t)}
-                className={`px-4 py-2 rounded-md text-sm font-medium ${
-                  active === t ? "bg-blue-600 text-white" : "text-gray-600 hover:bg-gray-50"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </nav>
-
-          <div className="p-6">
-            {active === "Routes" && <RoutesTab routes={SAMPLE_ROUTES} />}
-            {active === "Compare" && <CompareTab routes={SAMPLE_ROUTES} />}
-            {active === "Banking" && <BankingTab routes={SAMPLE_ROUTES} />}
-            {active === "Pooling" && <PoolingTab routes={SAMPLE_ROUTES} />}
-          </div>
-        </div>
-      </div>
+    <div className="bg-gray-50 rounded-xl shadow-lg p-6 animate-fadeInUp">
+      {activeTab === "Routes" && <RoutesTab routes={SAMPLE_ROUTES} />}
+      {activeTab === "Compare" && <CompareTab routes={SAMPLE_ROUTES} />}
+      {activeTab === "Banking" && <BankingTab routes={SAMPLE_ROUTES} />}
+      {activeTab === "Pooling" && <PoolingTab routes={SAMPLE_ROUTES} />}
     </div>
   );
 }
+

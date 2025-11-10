@@ -1,4 +1,5 @@
-import { prisma } from "../../shared/db.js";
+import { prisma } from "../../shared/db.js"; // ✅ if src/core/application/
+
 
 export class BankingService {
   async getRecords(shipId, year) {

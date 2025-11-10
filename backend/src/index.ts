@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 import bankingController from "./adaptars/infrastructure/banking/banking.controller.js";
 
+import poolingController from "./adaptars/infrastructure/pooling/pooling.controller.js";
 
 dotenv.config();
 const app = express();
@@ -34,7 +35,7 @@ app.get("/routes", async (req, res) => {
   }
 });
 
-
+app.use("/api", poolingController);
 
 // --- ROUTE COMPARISON ---
 app.get("/routes/comparison", async (req, res) => {
