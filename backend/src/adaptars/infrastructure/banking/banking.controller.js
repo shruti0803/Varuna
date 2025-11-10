@@ -2,6 +2,8 @@ import express from "express";
 import  prisma  from "../../../shared/db.js"; // prisma client
 
 const router = express.Router();
+// add this at the top of banking.controller.js
+console.log("Prisma:", prisma);
 
 // GET /banking/records?shipId=ABC&year=2025
 router.get("/records", async (req, res) => {
