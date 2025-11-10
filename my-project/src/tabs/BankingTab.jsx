@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import axios from "axios";
 // 89.3368;
-const TARGET = 100;
+const TARGET = 89.3368;
 const MJ_PER_T = 41000;
 
 export default function BankingTab({ baselineId }) {
