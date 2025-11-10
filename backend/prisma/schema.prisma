@@ -8,45 +8,47 @@ datasource db {
 }
 
 model Route {
-  id              Int      @id @default(autoincrement())
-  route_id        String
-  vesselType      String?
-  fuelType        String?
-  year            Int
-  ghg_intensity   Float
-  fuelConsumption Float?
-  distance        Float?
-  totalEmissions  Float?
-  is_baseline     Boolean  @default(false)
+  id           Int      @id @default(autoincrement())
+  route_id     String
+  year         Int
+  ghg_intensity Float
+  is_baseline  Boolean  @default(false)
 }
 
 model ShipCompliance {
-  id         Int     @id @default(autoincrement())
-  ship_id    String
-  year       Int
-  cb_gco2eq  Float
+  id           Int      @id @default(autoincrement())
+  ship_id      String
+  year         Int
+  cb_gco2eq    Float
 }
 
 model BankEntry {
-  id            Int     @id @default(autoincrement())
-  ship_id       String
-  year          Int
+  id           Int      @id @default(autoincrement())
+  ship_id      String
+  year         Int
   amount_gco2eq Float
 }
 
 model Pool {
-  id         Int         @id @default(autoincrement())
-  year       Int
-  created_at DateTime    @default(now())
-  members    PoolMember[]
+  id           Int      @id @default(autoincrement())
+  year         Int
+  created_at   DateTime @default(now())
+  members      PoolMember[]
 }
 
 model PoolMember {
-  id         Int     @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   pool_id    Int
   ship_id    String
   cb_before  Float
   cb_after   Float
-
-  pool Pool @relation(fields: [pool_id], references: [id])
+  pool       Pool     @relation(fields: [pool_id], references: [id])
+}
+model BankingRecord {
+  id        Int      @id @default(autoincrement())
+  shipId    String
+  year      Int
+  amount    Float
+  type      String   // "CREDIT" for banked, "DEBIT" for applied
+  createdAt DateTime @default(now())
 }

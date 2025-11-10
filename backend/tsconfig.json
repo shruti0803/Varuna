@@ -1,32 +1,19 @@
 {
   "compilerOptions": {
-    // Environment Settings
-    "target": "ES2020",               // Modern enough for Node
-    "module": "nodenext",             // Required for ES modules in Node
-    "moduleResolution": "node",       // Node-style module resolution
-    "esModuleInterop": true,          // Makes CommonJS imports compatible
-    "forceConsistentCasingInFileNames": true,
-    
-    // Type checking
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-
-    // Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-
-    // Node types
-    "types": ["node"],                // Include Node.js types
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "noImplicitAny": false,
     "skipLibCheck": true,
-
-    // Module handling
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-
-    // React (if you have any frontend code in this repo)
-    "jsx": "react-jsx"
-  }
+    "checkJs": false,
+    "strict": false,
+    "typeRoots": ["./src/types", "./node_modules/@types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
